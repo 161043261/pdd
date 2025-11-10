@@ -5,7 +5,7 @@ export default {
   name: "main-content",
   data() {
     return {
-      url: "http://0.0.0.0:2023/",
+      url: "http://127.0.0.1:2023/",
       urlL: "",
       urlR: "",
       arrL: [],

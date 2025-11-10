@@ -8,7 +8,7 @@
 import mainContent from "./components/main-content";
 
 export default {
-  name: "plant-disease-detection",
+  name: "app",
   components: {
     "main-content": mainContent,
   },

@@ -48,8 +48,8 @@ async def image(file: UploadFile):
         target_info = yolo.detect_image(image_path)
         return JSONResponse(
             {
-                "imageUrl": f"http://0.0.0.0:2023/{image_path}",
-                "imageOutUrl": f"http://0.0.0.0:2023/{image_out_path}",
+                "imageUrl": f"http://127.0.0.1:2023/{image_path}",
+                "imageOutUrl": f"http://127.0.0.1:2023/{image_out_path}",
                 "targetInfo": target_info,
             },
             200,
