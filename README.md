@@ -6,15 +6,15 @@ conda create -n pdd python=3.11 -y
 conda activate pdd
 
 pip install -r ./requirements.txt
-pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu117
+pip install torch torchaudio torchvision --index-url https://download.pytorch.org/whl/cu117
 ```
 
 ```shell
-python train.py
-python app.py
+python ./train.py
+python ./app.py
 ```
 
-### PlantDoc
+## Plant Doc
 
 ```text
 apple leaf
