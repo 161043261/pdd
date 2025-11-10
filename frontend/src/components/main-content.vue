@@ -6,14 +6,14 @@ export default {
   data() {
     return {
       url: "http://127.0.0.1:2023/",
-      urlL: "",
-      urlR: "",
-      arrL: [],
-      arrR: [],
+      leftUrl: "",
+      rightUrl: "",
+      leftArr: [],
+      rightArr: [],
       infoArr: [],
     };
   },
-  created: function () {
+  created() {
     document.title = "Plant Disease Detection";
   },
   methods: {
@@ -33,15 +33,15 @@ export default {
             headers: { "Content-Type": "multipart/form-data" },
           })
           .then((response) => {
-            this.urlL = response.data.imageUrl;
-            this.urlR = response.data.imageOutUrl;
-            this.arrL.push(this.urlL);
-            this.arrR.push(this.urlR);
-            const classes = Object.keys(response.data.targetInfo);
+            this.leftUrl = response.data.imageUrl;
+            this.rightUrl = response.data.imageOutUrl;
+            this.leftArr.push(this.leftUrl);
+            this.rightArr.push(this.rightUrl);
+            const keys = Object.keys(response.data.targetInfo);
             this.infoArr = [];
-            for (let i = 0; i < classes.length; i++) {
-              response.data.targetInfo[classes[i]][2] = classes[i];
-              this.infoArr.push(response.data.targetInfo[classes[i]]);
+            for (let i = 0; i < keys.length; i++) {
+              response.data.targetInfo[keys[i]][2] = keys[i];
+              this.infoArr.push(response.data.targetInfo[keys[i]]);
             }
             this.$notify({
               title: "Success",
@@ -55,7 +55,6 @@ export default {
             headers: { "Content-Type": "multipart/form-data" },
           })
           .then((response) => {
-            console.log(response.data);
             this.download(response.data.videoPath, {
               responseType: "blob",
             });
@@ -77,17 +76,16 @@ export default {
         .get(this.url + filePath, config)
         .then((response) => {
           const blob = new Blob([response.data]);
-          const eLink = document.createElement("a");
-          eLink.download = filename;
-          eLink.style.display = "none";
-          eLink.href = URL.createObjectURL(blob);
-          document.body.appendChild(eLink);
-          eLink.click();
-          URL.revokeObjectURL(eLink.href);
-          document.body.removeChild(eLink);
+          const anchor = document.createElement("a");
+          anchor.download = filename;
+          anchor.style.display = "none";
+          anchor.href = URL.createObjectURL(blob);
+          document.body.appendChild(anchor);
+          anchor.click();
+          URL.revokeObjectURL(anchor.href);
+          document.body.removeChild(anchor);
         })
-        .catch((err) => {
-          console.log(err === null);
+        .catch(() => {
           title = "Failure";
         })
         .finally(() => {
@@ -103,9 +101,10 @@ export default {
     <el-card shadow="always">
       <div slot="header">
         Plant Disease Detection
-        <el-button type="success" v-on:click="preUpload"
-          >Upload Image/Video
+        <el-button type="success" v-on:click="preUpload">
+          <label for="upload">Upload Image/Video</label>
           <input
+            id="upload"
             ref="upload"
             style="display: none"
             type="file"
@@ -116,15 +115,15 @@ export default {
       <el-card shadow="always">
         <el-row type="flex" justify="center">
           <el-image
-            :src="urlL"
+            :src="leftUrl"
             class="preview-container"
-            :preview-src-list="arrL"
-          ></el-image>
+            :preview-src-list="leftArr"
+          />
           <el-image
-            :src="urlR"
+            :src="rightUrl"
             class="preview-container"
-            :preview-src-list="arrR"
-          ></el-image>
+            :preview-src-list="rightArr"
+          />
         </el-row>
       </el-card>
       <el-table
@@ -156,10 +155,10 @@ export default {
 
 <style scoped>
 .preview-container {
-  width: 400px;
-  height: 400px;
-  border: 3px solid lightgreen;
-  border-radius: 30px;
-  margin: 20px;
+  width: 30rem;
+  height: 30rem;
+  border: 0.1rem solid lightgreen;
+  border-radius: 1rem;
+  margin: 1rem;
 }
 </style>
