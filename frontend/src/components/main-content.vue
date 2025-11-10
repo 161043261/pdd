@@ -104,7 +104,7 @@ export default {
       <div slot="header">
         Plant Disease Detection
         <el-button type="success" v-on:click="preUpload"
-          >Upload image/video
+          >Upload Image/Video
           <input
             ref="upload"
             style="display: none"
